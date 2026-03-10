@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Taller Progra Web</title>
+
+<style>
+
+body{
+    font-family: Arial;
+}
+
+.card {
+    width: 300px;
+    padding: 20px;
+    border: 2px solid black;
+    text-align: center;
+    margin: 100px auto;
+    box-shadow: 4px 4px 10px gray;
+}
+
+
+.foto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ddd;
+    overflow: hidden;
+    margin: auto;
+    border: 5px solid white;
+}
+
+
+button{
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="foto" id="foto-container"></div>
+
+    <h2 id="nombre">Nombre Aquí</h2>
+    <p id="email">Email Aquí</p>
+
+    <button id="btn-cargar">Cambiar Usuario</button>
+
+    <p id="contador">Usuarios consultados: 0</p>
+
+</div>
+
+<script>
+
+
+let contador = 0;
+
+const boton = document.getElementById('btn-cargar');
+
+boton.addEventListener('click', async () => {
+
+    try {
+
+       
+        const respuesta = await fetch("https://randomuser.me/api/?gender=male");
+
+        const datos = await respuesta.json();
+
+        const usuario = datos.results[0];
+
+        
+        document.getElementById('nombre').innerText = usuario.name.first;
+        document.getElementById('email').innerText = usuario.email;
+
+        document.getElementById('foto-container').innerHTML =
+        `<img src="${usuario.picture.large}" width="100">`;
+
+        
+        const foto = document.getElementById("foto-container");
+        foto.style.border = "5px solid blue";
+
+        
+        contador++;
+
+        document.getElementById("contador").innerText =
+        `Usuarios consultados: ${contador}`;
+
+    } catch (error) {
+
+        console.error("Algo salió mal:", error);
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
